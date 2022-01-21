@@ -8,21 +8,33 @@ import {
   PluginSpec,
   PluginValue,
   ViewPlugin,
-  ViewUpdate
+  ViewUpdate,
 } from "@codemirror/view";
-import { editorViewField, Plugin as ObsidianPlugin } from "obsidian";
+import { editorLivePreviewField, editorViewField, Plugin as ObsidianPlugin } from "obsidian";
 
 class atomicRangePluginClass implements PluginValue {
   ranges: DecorationSet;
   stateField: StateField<any>;
 
   constructor(view: EditorView, plugin: ObsidianPlugin) {
+    if (!this.isLivePreview) {
+      this.ranges = Decoration.none;
+      return;
+    }
     this.scavengeStateField(view);
     this.ranges = this.buildRanges(view);
   }
 
+  get isLivePreview() {
+    return document.body.querySelector("div.markdown-source-view.is-live-preview") ? true : false;
+  }
+
   update(update: ViewUpdate) {
     if (update.docChanged || update.viewportChanged) {
+      if (!this.isLivePreview) {
+        this.ranges = Decoration.none;
+        return;
+      }
       this.ranges = this.buildRanges(update.view);
     }
   }

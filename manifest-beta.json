@@ -1,7 +1,7 @@
 {
   "id": "obsidian-atomic-ranges",
   "name": "Atomic Ranges",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "minAppVersion": "0.13.5",
   "description": "Adjust keyboard movement so that it skips over rendered block elements in the editor",
   "author": "NothingIsLost",
